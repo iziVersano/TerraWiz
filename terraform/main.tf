@@ -13,8 +13,12 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Modules will be wired in here as phases complete:
-# Phase 4  — module "ecr"
+module "ecr" {
+  source          = "./modules/ecr"
+  repository_name = "${var.project_name}"
+  project_name    = var.project_name
+}
+
 # Phase 6  — module "networking"
 # Phase 7  — module "iam"
 # Phase 8  — module "ecs"
