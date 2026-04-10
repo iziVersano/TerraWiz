@@ -1,6 +1,6 @@
 # TerraWiz
 
-**Live app:** https://berlin-ink-walls.lovable.app/
+**Live app:** http://100.52.174.210:3000/
 
 A learning project that deploys a Node.js app to AWS ECS Fargate using only Terraform. No AWS Console. No clicking. Everything is code.
 
