@@ -6,6 +6,7 @@
 set -e  # exit immediately if any command fails
 
 AWS_REGION="us-east-1"
+AWS_PROFILE="admin"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 TF_DIR="$PROJECT_ROOT/terraform"
@@ -31,7 +32,7 @@ docker tag terrawiz:prod "$ECR_URL:latest"
 
 echo ""
 echo "==> Authenticating Docker to ECR..."
-aws ecr get-login-password --region "$AWS_REGION" \
+aws ecr get-login-password --region "$AWS_REGION" --profile "$AWS_PROFILE" \
   | docker login --username AWS --password-stdin "$ECR_URL"
 
 echo ""

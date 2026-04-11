@@ -10,7 +10,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = "admin"
 }
 
 module "ecr" {
@@ -19,6 +20,25 @@ module "ecr" {
   project_name    = var.project_name
 }
 
-# Phase 6  — module "networking"
-# Phase 7  — module "iam"
-# Phase 8  — module "ecs"
+module "networking" {
+  source       = "./modules/networking"
+  project_name = var.project_name
+  environment  = var.environment
+}
+
+module "iam" {
+  source       = "./modules/iam"
+  project_name = var.project_name
+  environment  = var.environment
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  project_name       = var.project_name
+  environment        = var.environment
+  ecr_repository_url = module.ecr.repository_url
+  execution_role_arn = module.iam.execution_role_arn
+  subnet_ids         = module.networking.public_subnet_ids
+  security_group_id  = module.networking.security_group_id
+}
