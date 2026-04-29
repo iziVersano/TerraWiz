@@ -16,7 +16,7 @@ provider "aws" {
 
 module "ecr" {
   source          = "./modules/ecr"
-  repository_name = "${var.project_name}"
+  repository_name = var.project_name
   project_name    = var.project_name
 }
 
@@ -27,7 +27,14 @@ module "networking" {
 }
 
 module "iam" {
-  source       = "./modules/iam"
+  source             = "./modules/iam"
+  project_name       = var.project_name
+  environment        = var.environment
+  uploads_bucket_arn = module.s3.bucket_arn
+}
+
+module "s3" {
+  source       = "./modules/s3"
   project_name = var.project_name
   environment  = var.environment
 }
