@@ -38,14 +38,17 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
   const key = `uploads/${Date.now()}-${req.file.originalname}`;
 
-  await s3.send(new PutObjectCommand({
-    Bucket: BUCKET,
-    Key: key,
-    Body: req.file.buffer,
-    ContentType: req.file.mimetype,
-  }));
-
-  res.json({ message: 'upload successful', key });
+  try {
+    await s3.send(new PutObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    }));
+    res.json({ message: 'upload successful', key });
+  } catch (err) {
+    res.status(500).json({ error: 'S3 upload failed', detail: err.message });
+  }
 });
 
 // Handle file type rejection from multer
