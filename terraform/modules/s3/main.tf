@@ -26,6 +26,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "uploads" {
     id     = "expire-uploads"
     status = "Enabled"
 
+    filter {}
+
     expiration {
       days = 30
     }
