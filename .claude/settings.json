@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json; s=json.load\\(sys.stdin\\); print\\(f'{len\\(s.get\\(\\\\\"resources\\\\\",[]\\)\\)} resources in state'\\)\")",
+      "Bash(git -C /home/dci-student/TerraWiz log --oneline)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
