@@ -101,3 +101,4 @@ cd terraform && terraform destroy
 ## Test
 
 This line was added to resolve issue #8.
+This line was added to resolve issue #9.
