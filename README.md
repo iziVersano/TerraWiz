@@ -97,3 +97,7 @@ Fargate has no free tier. Tear down when not in use:
 ```bash
 cd terraform && terraform destroy
 ```
+
+## Test
+
+This line was added to resolve issue #8.
