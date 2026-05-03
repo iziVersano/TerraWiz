@@ -1,6 +1,6 @@
 # TerraWiz
 
-**Live app:** http://100.52.174.210:3000/
+**Live app:** http://terrawiz-alb-\<id\>.us-east-1.elb.amazonaws.com/
 
 A learning project that deploys a Node.js app to AWS ECS Fargate using only Terraform. No AWS Console. No clicking. Everything is code.
 
@@ -49,6 +49,15 @@ Wrote a Terraform module that provisions the full compute layer:
 ### Phase 9 — Deploy and Verify
 Ran `terraform apply` to create all 16 AWS resources. Pushed the Docker image to ECR. Verified the app is reachable at the Fargate task's public IP.
 
+### Phase 10 — Application Load Balancer
+Added an ALB in front of the Fargate service to provide a stable, DNS-based endpoint:
+- Terraform ALB module (`aws_lb`, `aws_lb_listener`, `aws_lb_target_group`)
+- Target group uses `ip` target type (required for Fargate awsvpc networking), health-checks `GET /health`
+- HTTP listener on port 80 forwards to the target group
+- ECS service registers tasks with the target group via `load_balancer` block
+- Security group updated to allow inbound traffic on port 80
+- `alb_dns_name` output exposes the stable endpoint after `terraform apply`
+
 ## Architecture
 
 ```
@@ -58,11 +67,15 @@ Docker Image → ECR
                 ↓
          Fargate Task (0.25 vCPU / 0.5 GB)
                 ↓
+         ALB Target Group (port 3000, /health checks)
+                ↓
+         Application Load Balancer (port 80)
+                ↓
          Public Subnet (VPC 10.0.0.0/16)
                 ↓
          Internet Gateway
                 ↓
-         Public Internet → http://<task-ip>:3000
+         Public Internet → http://<alb-dns-name>
 ```
 
 ## Stack
@@ -73,7 +86,7 @@ Docker Image → ECR
 | Container | Docker (multi-stage) |
 | Registry | AWS ECR |
 | Compute | AWS ECS Fargate |
-| Networking | AWS VPC, Subnets, IGW, Security Group |
+| Networking | AWS VPC, Subnets, IGW, Security Group, ALB |
 | Permissions | AWS IAM |
 | Infrastructure | Terraform |
 

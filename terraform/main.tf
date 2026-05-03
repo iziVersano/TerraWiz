@@ -39,6 +39,16 @@ module "s3" {
   environment  = var.environment
 }
 
+module "alb" {
+  source = "./modules/alb"
+
+  project_name      = var.project_name
+  environment       = var.environment
+  vpc_id            = module.networking.vpc_id
+  subnet_ids        = module.networking.public_subnet_ids
+  security_group_id = module.networking.security_group_id
+}
+
 module "ecs" {
   source = "./modules/ecs"
 
@@ -48,4 +58,5 @@ module "ecs" {
   execution_role_arn = module.iam.execution_role_arn
   subnet_ids         = module.networking.public_subnet_ids
   security_group_id  = module.networking.security_group_id
+  target_group_arn   = module.alb.target_group_arn
 }

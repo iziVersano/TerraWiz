@@ -51,3 +51,8 @@ variable "desired_count" {
   type        = number
   default     = 1
 }
+
+variable "target_group_arn" {
+  description = "ARN of the ALB target group to register tasks with"
+  type        = string
+}
