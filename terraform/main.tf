@@ -49,6 +49,15 @@ module "alb" {
   security_group_id = module.networking.security_group_id
 }
 
+module "asg" {
+  source = "./modules/asg"
+
+  project_name      = var.project_name
+  environment       = var.environment
+  subnet_ids        = module.networking.public_subnet_ids
+  security_group_id = module.networking.security_group_id
+}
+
 module "ecs" {
   source = "./modules/ecs"
 
