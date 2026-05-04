@@ -30,12 +30,20 @@ data "external" "ecs_task_public_ip" {
       --profile admin \
       --query 'tasks[0].attachments[0].details[?name==`networkInterfaceId`].value | [0]' \
       --output text 2>/dev/null)
+    if [ -z "$ENI" ] || [ "$ENI" = "None" ]; then
+      printf '{"public_ip":"(task starting — no ENI yet)"}'
+      exit 0
+    fi
     IP=$(aws ec2 describe-network-interfaces \
       --network-interface-ids "$ENI" \
       --region us-east-1 \
       --profile admin \
       --query 'NetworkInterfaces[0].Association.PublicIp' \
       --output text 2>/dev/null)
+    if [ -z "$IP" ] || [ "$IP" = "None" ]; then
+      printf '{"public_ip":"(no public IP assigned yet)"}'
+      exit 0
+    fi
     printf '{"public_ip":"%s"}' "$IP"
   EOT
   ]
