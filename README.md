@@ -49,6 +49,29 @@ Wrote a Terraform module that provisions the full compute layer:
 ### Phase 9 — Deploy and Verify
 Ran `terraform apply` to create all 16 AWS resources. Pushed the Docker image to ECR. Verified the app is reachable at the Fargate task's public IP.
 
+### Phase 11 — EC2 Auto Scaling Group
+
+Added a standalone EC2 Auto Scaling Group alongside the Fargate service to practice ASG concepts:
+- Launch Template (`terrawiz-lt`) — resolves the latest Amazon Linux 2023 AMI at apply time, `t3.micro`, attaches the existing security group
+- Auto Scaling Group (`terrawiz-asg`) — min 1, max 1, desired 1; placed in the public subnets from the networking module
+- EC2 health checks with a 60-second grace period so the instance has time to boot before health checks begin
+- Outputs: `asg_name`, `launch_template_id`, `launch_template_name`, `asg_instance_ids`
+
+**How to test self-healing:**
+1. Run `terraform apply` and confirm the ASG reaches desired capacity (`asg_instance_ids` shows one ID).
+2. Terminate the instance manually:
+   ```bash
+   aws ec2 terminate-instances --instance-ids <instance-id> --region us-east-1 --profile admin
+   ```
+3. Watch the ASG detect the unhealthy instance and launch a replacement:
+   ```bash
+   aws autoscaling describe-auto-scaling-groups \
+     --auto-scaling-group-names terrawiz-asg \
+     --region us-east-1 --profile admin \
+     --query 'AutoScalingGroups[0].Instances'
+   ```
+4. Within ~2 minutes a new instance should appear with `LifecycleState: InService`.
+
 ### Phase 10 — Application Load Balancer
 Added an ALB in front of the Fargate service to provide a stable, DNS-based endpoint:
 - Terraform ALB module (`aws_lb`, `aws_lb_listener`, `aws_lb_target_group`)

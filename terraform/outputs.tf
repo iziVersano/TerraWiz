@@ -8,6 +8,11 @@ output "launch_template_id" {
   value       = module.asg.launch_template_id
 }
 
+output "launch_template_name" {
+  description = "Name of the EC2 Launch Template"
+  value       = module.asg.launch_template_name
+}
+
 output "asg_instance_ids" {
   description = "EC2 instance IDs currently running in the ASG"
   value       = module.asg.instance_ids
