@@ -68,4 +68,5 @@ module "ecs" {
   subnet_ids         = module.networking.public_subnet_ids
   security_group_id  = module.networking.security_group_id
   target_group_arn   = module.alb.target_group_arn
+  s3_bucket_name     = module.s3.bucket_name
 }

@@ -50,6 +50,10 @@ resource "aws_ecs_task_definition" "this" {
         {
           name  = "PORT"
           value = tostring(var.app_port)
+        },
+        {
+          name  = "S3_BUCKET_NAME"
+          value = var.s3_bucket_name
         }
       ]
 

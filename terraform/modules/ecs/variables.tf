@@ -56,3 +56,8 @@ variable "target_group_arn" {
   description = "ARN of the ALB target group to register tasks with"
   type        = string
 }
+
+variable "s3_bucket_name" {
+  description = "S3 bucket name passed to the container as S3_BUCKET_NAME"
+  type        = string
+}
