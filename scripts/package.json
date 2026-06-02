@@ -1,0 +1,11 @@
+{
+  "name": "terrawiz-console-viewer",
+  "version": "1.0.0",
+  "description": "Opens AWS Console pages as we build each Terraform file",
+  "scripts": {
+    "view": "node console-viewer.js"
+  },
+  "dependencies": {
+    "playwright": "^1.44.0"
+  }
+}

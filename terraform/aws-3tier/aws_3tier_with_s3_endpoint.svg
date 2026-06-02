@@ -1,0 +1,123 @@
+<svg width="100%" viewBox="0 0 680 820" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Full AWS 3-tier architecture with S3 via VPC Gateway Endpoint</title>
+  <desc>3-tier VPC architecture with two AZs, ELB, web/app/db tiers, and S3 bucket accessed via VPC Gateway Endpoint keeping traffic inside AWS</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- User + Route53 + IGW -->
+  <rect x="20" y="20" width="80" height="36" rx="8" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="60" y="38" text-anchor="middle" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">User</text>
+
+  <line x1="100" y1="38" x2="130" y2="38" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <rect x="130" y="20" width="90" height="36" rx="8" fill="rgb(238,237,254)" stroke="rgb(83,74,183)" stroke-width="0.5"/>
+  <text x="175" y="38" text-anchor="middle" dominant-baseline="central" fill="rgb(60,52,137)" font-size="14" font-weight="500">Route 53</text>
+
+  <line x1="220" y1="38" x2="250" y2="38" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <rect x="250" y="20" width="80" height="36" rx="8" fill="rgb(225,245,238)" stroke="rgb(15,110,86)" stroke-width="0.5"/>
+  <text x="290" y="38" text-anchor="middle" dominant-baseline="central" fill="rgb(8,80,65)" font-size="14" font-weight="500">IGW</text>
+
+  <line x1="290" y1="56" x2="290" y2="74" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- VPC -->
+  <rect x="20" y="74" width="560" height="686" rx="16" fill="rgb(230,241,251)" stroke="rgb(24,95,165)" stroke-width="0.5"/>
+  <text x="48" y="96" dominant-baseline="central" fill="rgb(12,68,124)" font-size="14" font-weight="500">VPC · 10.0.0.0/16 · us-east-1</text>
+
+  <!-- ELB -->
+  <rect x="140" y="104" width="260" height="44" rx="8" fill="rgb(225,245,238)" stroke="rgb(15,110,86)" stroke-width="0.5"/>
+  <text x="270" y="120" text-anchor="middle" dominant-baseline="central" fill="rgb(8,80,65)" font-size="14" font-weight="500">ELB – Elastic Load Balancer</text>
+  <text x="270" y="136" text-anchor="middle" dominant-baseline="central" fill="rgb(15,110,86)" font-size="12">public IP · SG: allow 80, 443</text>
+
+  <line x1="220" y1="148" x2="160" y2="192" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+  <line x1="340" y1="148" x2="400" y2="192" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- AZ 1A -->
+  <rect x="38" y="168" width="230" height="524" rx="12" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="60" y="186" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">AZ 1A</text>
+
+  <!-- AZ 1B -->
+  <rect x="312" y="168" width="230" height="524" rx="12" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="334" y="186" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">AZ 1B</text>
+
+  <!-- WEB TIER 1A -->
+  <rect x="52" y="198" width="202" height="110" rx="10" fill="rgb(225,245,238)" stroke="rgb(15,110,86)" stroke-width="0.5"/>
+  <text x="72" y="216" dominant-baseline="central" fill="rgb(8,80,65)" font-size="14" font-weight="500">Web · 10.0.1.0/24</text>
+  <rect x="206" y="204" width="40" height="18" rx="4" fill="rgb(252,235,235)" stroke="rgb(163,45,45)" stroke-width="0.5"/>
+  <text x="226" y="213" text-anchor="middle" dominant-baseline="central" fill="rgb(163,45,45)" font-size="12">NACL</text>
+  <rect x="64" y="226" width="178" height="34" rx="8" fill="rgb(250,236,231)" stroke="rgb(153,60,29)" stroke-width="0.5"/>
+  <text x="153" y="239" text-anchor="middle" dominant-baseline="central" fill="rgb(113,43,19)" font-size="14" font-weight="500">EC2 · auto scaling</text>
+  <text x="153" y="253" text-anchor="middle" dominant-baseline="central" fill="rgb(153,60,29)" font-size="12">web server</text>
+  <rect x="64" y="268" width="178" height="20" rx="4" fill="rgb(250,238,218)" stroke="rgb(133,79,11)" stroke-width="0.5"/>
+  <text x="153" y="278" text-anchor="middle" dominant-baseline="central" fill="rgb(133,79,11)" font-size="12">SG · from ELB only</text>
+  <line x1="153" y1="296" x2="153" y2="320" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- WEB TIER 1B -->
+  <rect x="326" y="198" width="202" height="110" rx="10" fill="rgb(225,245,238)" stroke="rgb(15,110,86)" stroke-width="0.5"/>
+  <text x="346" y="216" dominant-baseline="central" fill="rgb(8,80,65)" font-size="14" font-weight="500">Web · 10.0.2.0/24</text>
+  <rect x="480" y="204" width="40" height="18" rx="4" fill="rgb(252,235,235)" stroke="rgb(163,45,45)" stroke-width="0.5"/>
+  <text x="500" y="213" text-anchor="middle" dominant-baseline="central" fill="rgb(163,45,45)" font-size="12">NACL</text>
+  <rect x="338" y="226" width="178" height="34" rx="8" fill="rgb(250,236,231)" stroke="rgb(153,60,29)" stroke-width="0.5"/>
+  <text x="427" y="239" text-anchor="middle" dominant-baseline="central" fill="rgb(113,43,19)" font-size="14" font-weight="500">EC2 · auto scaling</text>
+  <text x="427" y="253" text-anchor="middle" dominant-baseline="central" fill="rgb(153,60,29)" font-size="12">web server</text>
+  <rect x="338" y="268" width="178" height="20" rx="4" fill="rgb(250,238,218)" stroke="rgb(133,79,11)" stroke-width="0.5"/>
+  <text x="427" y="278" text-anchor="middle" dominant-baseline="central" fill="rgb(133,79,11)" font-size="12">SG · from ELB only</text>
+  <line x1="427" y1="296" x2="427" y2="320" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- APP TIER 1A -->
+  <rect x="52" y="320" width="202" height="110" rx="10" fill="rgb(238,237,254)" stroke="rgb(83,74,183)" stroke-width="0.5"/>
+  <text x="72" y="338" dominant-baseline="central" fill="rgb(60,52,137)" font-size="14" font-weight="500">App · 10.0.3.0/24</text>
+  <rect x="206" y="326" width="40" height="18" rx="4" fill="rgb(252,235,235)" stroke="rgb(163,45,45)" stroke-width="0.5"/>
+  <text x="226" y="335" text-anchor="middle" dominant-baseline="central" fill="rgb(163,45,45)" font-size="12">NACL</text>
+  <rect x="64" y="348" width="178" height="34" rx="8" fill="rgb(250,236,231)" stroke="rgb(153,60,29)" stroke-width="0.5"/>
+  <text x="153" y="361" text-anchor="middle" dominant-baseline="central" fill="rgb(113,43,19)" font-size="14" font-weight="500">EC2 · auto scaling</text>
+  <text x="153" y="375" text-anchor="middle" dominant-baseline="central" fill="rgb(153,60,29)" font-size="12">app server</text>
+  <rect x="64" y="390" width="178" height="20" rx="4" fill="rgb(250,238,218)" stroke="rgb(133,79,11)" stroke-width="0.5"/>
+  <text x="153" y="400" text-anchor="middle" dominant-baseline="central" fill="rgb(133,79,11)" font-size="12">SG · from web tier SG</text>
+  <line x1="153" y1="418" x2="153" y2="442" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- APP TIER 1B -->
+  <rect x="326" y="320" width="202" height="110" rx="10" fill="rgb(238,237,254)" stroke="rgb(83,74,183)" stroke-width="0.5"/>
+  <text x="346" y="338" dominant-baseline="central" fill="rgb(60,52,137)" font-size="14" font-weight="500">App · 10.0.4.0/24</text>
+  <rect x="480" y="326" width="40" height="18" rx="4" fill="rgb(252,235,235)" stroke="rgb(163,45,45)" stroke-width="0.5"/>
+  <text x="500" y="335" text-anchor="middle" dominant-baseline="central" fill="rgb(163,45,45)" font-size="12">NACL</text>
+  <rect x="338" y="348" width="178" height="34" rx="8" fill="rgb(250,236,231)" stroke="rgb(153,60,29)" stroke-width="0.5"/>
+  <text x="427" y="361" text-anchor="middle" dominant-baseline="central" fill="rgb(113,43,19)" font-size="14" font-weight="500">EC2 · auto scaling</text>
+  <text x="427" y="375" text-anchor="middle" dominant-baseline="central" fill="rgb(153,60,29)" font-size="12">app server</text>
+  <rect x="338" y="390" width="178" height="20" rx="4" fill="rgb(250,238,218)" stroke="rgb(133,79,11)" stroke-width="0.5"/>
+  <text x="427" y="400" text-anchor="middle" dominant-baseline="central" fill="rgb(133,79,11)" font-size="12">SG · from web tier SG</text>
+  <line x1="427" y1="418" x2="427" y2="442" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- DB TIER -->
+  <rect x="52" y="442" width="476" height="110" rx="10" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="72" y="460" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">DB tier · 10.0.5.0/24 · spans both AZs</text>
+  <rect x="90" y="474" width="140" height="34" rx="8" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="160" y="487" text-anchor="middle" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">RDS primary</text>
+  <text x="160" y="501" text-anchor="middle" dominant-baseline="central" fill="rgb(95,94,90)" font-size="12">AZ 1A</text>
+  <rect x="350" y="474" width="140" height="34" rx="8" fill="rgb(241,239,232)" stroke="rgb(95,94,90)" stroke-width="0.5"/>
+  <text x="420" y="487" text-anchor="middle" dominant-baseline="central" fill="rgb(68,68,65)" font-size="14" font-weight="500">RDS replica</text>
+  <text x="420" y="501" text-anchor="middle" dominant-baseline="central" fill="rgb(95,94,90)" font-size="12">AZ 1B</text>
+  <line x1="230" y1="491" x2="348" y2="491" stroke-dasharray="4 3" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+  <text x="290" y="484" text-anchor="middle" fill="rgb(61,61,58)" font-size="12">replication</text>
+  <rect x="90" y="516" width="400" height="20" rx="4" fill="rgb(250,238,218)" stroke="rgb(133,79,11)" stroke-width="0.5"/>
+  <text x="290" y="526" text-anchor="middle" dominant-baseline="central" fill="rgb(133,79,11)" font-size="12">SG · allow 3306 from app tier SG only</text>
+
+  <!-- VPC Endpoint -->
+  <rect x="52" y="574" width="476" height="44" rx="8" fill="rgb(234,243,222)" stroke="rgb(59,109,17)" stroke-width="0.5"/>
+  <text x="290" y="590" text-anchor="middle" dominant-baseline="central" fill="rgb(39,80,10)" font-size="14" font-weight="500">VPC Gateway Endpoint</text>
+  <text x="290" y="606" text-anchor="middle" dominant-baseline="central" fill="rgb(59,109,17)" font-size="12">private path to S3 · no internet · no NAT needed</text>
+  <line x1="290" y1="554" x2="290" y2="572" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+  <line x1="290" y1="618" x2="290" y2="636" marker-end="url(#arrow)" stroke="rgb(115,114,108)" stroke-width="1.5" fill="none"/>
+
+  <!-- S3 -->
+  <rect x="52" y="636" width="476" height="44" rx="8" fill="rgb(234,243,222)" stroke="rgb(59,109,17)" stroke-width="0.5"/>
+  <text x="290" y="652" text-anchor="middle" dominant-baseline="central" fill="rgb(39,80,10)" font-size="14" font-weight="500">S3 bucket</text>
+  <text x="290" y="668" text-anchor="middle" dominant-baseline="central" fill="rgb(59,109,17)" font-size="12">outside VPC · AWS managed · no public IP needed</text>
+
+  <rect x="596" y="636" width="60" height="44" rx="8" fill="rgb(234,243,222)" stroke="rgb(59,109,17)" stroke-width="0.5"/>
+  <text x="626" y="652" text-anchor="middle" dominant-baseline="central" fill="rgb(59,109,17)" font-size="12">AWS</text>
+  <text x="626" y="668" text-anchor="middle" dominant-baseline="central" fill="rgb(59,109,17)" font-size="12">cloud</text>
+</svg>
