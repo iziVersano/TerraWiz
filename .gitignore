@@ -5,10 +5,12 @@ terraform.tfstate
 terraform.tfstate.backup
 tfplan
 *.tfvars
+terraform/plan.txt
 
 # Node
 node_modules/
 npm-debug.log
+yarn.lock
 
 # OS
 .DS_Store
