@@ -42,9 +42,9 @@ APP_SG_ID="sg-0fa4157863ea81a4c"
 DB_SG_ID="sg-0eff7ca410b56b89e"
 
 # EC2
-WEB_EC2_ID="i-0d3c7bb27841044b2"
-WEB_EC2_IP="18.159.113.182"  # note: IP changes on restart — check console for new IP
-APP_EC2_ID="i-055ea4e91f0c3578f"
+WEB_EC2_ID="i-0eebfc346612550cd"
+WEB_EC2_IP="3.76.6.79"       # note: IP changes on restart — check console for new IP
+APP_EC2_ID="i-0ffadd3cd1e14b4be"
 
 # ELB, RDS, S3 — added as we build them
 # ELB_ARN=""
